@@ -32,23 +32,11 @@ func main() {
   var n = rand.Intn(max - min + 1) + min    // number of items available
 
   var Weights[20]int  // weights of available items
-
   var Values[20]int   // values of available items
 
-  for i := 0; i < n; i++ {
-		Values[i] = rand.Intn(220 - 1 + 1) + 1
-    Weights[i] = rand.Intn(60 - 1 + 1) + 1
-	}
-
-  fmt.Fprintf(t, "\n %s\t%s\t%s\t", "Item", "Val", "Wt")
-	fmt.Fprintf(t, "\n %s\t%s\t%s\t", "----", "----", "----")
-  for i := 0; i < n; i++ {
-    fmt.Fprintf(t, "\n %d\t$%d\t%d lbs.\t", i+1, Values[i], Weights[i])
-  }
-  fmt.Fprintf(t, "\n\n")
-
-  var Stash[20]string //everything you stole--err, liberated...
-  _ = Stash
+  var Stash[20]string    // everything you could steal
+  var Knapsack[20]string // everything you DID steal
+  _ = Knapsack
 
   // nobody asked for this...
   var items = [60]string{
@@ -63,10 +51,23 @@ func main() {
     "crochet scarf", "manila envelope of blackmail material", "fuzz", "NFT", "lipstick",
     "mix tape", "Chaka Khan record", "walkman without batteries", "batteries", "EMF jammer",
     "Rosemary's Baby poster", "ratchet", "can of soup", "aquarium filter", "mermaid soap",
-    "Rolex", "polished charoite", "forbidden flour", "lottery ticket", "Declaration of Independence"}
+    "Rolex", "diamonds", "forbidden flour", "lottery ticket", "Declaration of Independence"}
   _ = items
 
-  var maxvalue = Knapsack(W, Weights, Values, n);
+  for i := 0; i < n; i++ {
+		Values[i] = rand.Intn(220 - 1 + 1) + 1
+    Weights[i] = rand.Intn(60 - 1 + 1) + 1
+    Stash[i] = items[rand.Intn(60)] // need to update to not pick repeats
+	}
+
+  fmt.Fprintf(t, "\n %s\t%s\t%s\t", "Val", "Wt", "Item")
+	fmt.Fprintf(t, "\n %s\t%s\t%s\t", "----", "----", "----")
+  for i := 0; i < n; i++ {
+    fmt.Fprintf(t, "\n $%d\t %d lbs \t%s \t", Values[i], Weights[i], Stash[i])
+  }
+  fmt.Fprintf(t, "\n\n")
+
+  var maxvalue = OptimalThievery(W, Weights, Values, Stash, Knapsack, n);
   fmt.Printf("N = %d W = %d, Max = $%d\n", n, W, maxvalue);
 
 }
@@ -92,15 +93,11 @@ func Max(a int, b int) int {
 
 // Returns the maximum value that
 // can be put in a knapsack of capacity W
-func Knapsack(W int, Weights [20]int, Values [20]int, n int) int {
+func OptimalThievery(W int, Weights [20]int, Values [20]int, Stash [20]string, Knapsack [20]string,  n int) int {
 
-  // set up a 2D array for my solution grid!
-  // ...or not
-  // golang got very cranky about not knowing the array size
-  // until runtime, so I'm trying with a slice instead. whatever
-  // that is.
-  // apparently slices are always 1D but can be composed into 2d
-  // arrays, with some work...
+  s:= 0
+  _ = s
+  // set up a 2D array (well, a slice of slices...) for my solution grid!
   K := make([][]int, n + 1)
   for i := range K {
     K[i] = make([]int, W + 1)
