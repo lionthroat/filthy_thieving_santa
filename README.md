@@ -1,6 +1,8 @@
-# Filthy Thieving Knapsack
+# Filthy Thieving Santa
 A kleptomaniac's implementation of the 0/1 knapsack problem, using a dynamic programming approach. Rewritten in Go
-after being originally coded in C for algorithms coursework.
+after being originally coded in C for my coursework in intro to algorithms.
+
+<img src="https://github.com/wrongenvelope/filthy_thieving_santa/blob/main/screen1.png?raw=true" width="450">
 
 ##### Why did this interest me?
 <blockquote>
