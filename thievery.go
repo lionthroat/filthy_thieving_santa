@@ -19,12 +19,16 @@ func main() {
   t.Init(os.Stdout, 8, 8, 0, '\t', 0)
   defer t.Flush()
 
-  fmt.Printf("\n\nFilthy Thieving Knapsack\n")
+  fmt.Printf("\n\n\n\tFilthy Thieving Santa:\n\tHe's taking back your toys.\n\n\n\n")
 
-  // want three different sized knapsacks, but largest by default for now
-  // fanny pack:                 10 lbs
-  // artisanal leather knapsack: 25 lbs
-  // santa's toy bag:            75 lbs
+  fmt.Printf("\tOk, kid, Santa's going on a heist.\n")
+  fmt.Printf("\tWhich bag is he taking?\n\n")
+  fmt.Printf("\t1. Dainty Fanny Pack: 10 lb. capacity\n")
+  fmt.Printf("\t2. Leather Knapsack:  25 lb. capacity\n")
+  fmt.Printf("\t3. SANTA'S TOY BAG:   75 lb. capacity\n")
+  fmt.Printf("\tEnter choice: ")
+  var choice string
+  fmt.Scanln(&choice)
   W:= 75
 
   min := 3
