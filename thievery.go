@@ -25,13 +25,14 @@ func main() {
   // fanny pack:                 10 lbs
   // artisanal leather knapsack: 25 lbs
   // santa's toy bag:            75 lbs
-  W:= 10
+  W:= 75
 
   min := 3
   max := 20
   var n = rand.Intn(max - min + 1) + min    // number of items available
 
   var Weights[20]int  // weights of available items
+
   var Values[20]int   // values of available items
 
   for i := 0; i < n; i++ {
