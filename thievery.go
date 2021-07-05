@@ -3,6 +3,8 @@ package main
 import (
   "fmt"
   "math/rand"
+  "os"
+  "text/tabwriter"
   "time"
 )
 
@@ -11,25 +13,40 @@ import (
 func main() {
   rand.Seed(time.Now().UnixNano()) // seed random number generator
 
-  fmt.Printf("Filthy Thieving Knapsack\n")
+  // make a new tabwriter table
+  // minwidth, tabwidth, padding, padchar, flags
+  t := new(tabwriter.Writer)
+  t.Init(os.Stdout, 8, 8, 0, '\t', 0)
+  defer t.Flush()
+
+  fmt.Printf("\n\nFilthy Thieving Knapsack\n")
 
   // want three different sized knapsacks, but largest by default for now
   // fanny pack:                 10 lbs
   // artisanal leather knapsack: 25 lbs
   // santa's toy bag:            75 lbs
-  W:= [3]int{10, 25, 75}
-  _ = W
+  W:= 10
 
-  var n = 0      // number of items available
-  _ = n
-  // used to initialize pointers to arrays here, but that needs to be ported
-  // bc the array size is *part* of the type in Go...
+  min := 3
+  max := 20
+  var n = rand.Intn(max - min + 1) + min    // number of items available
 
   var Weights[20]int  // weights of available items
   var Values[20]int   // values of available items
-  var Stash[20]string //everything you stole
-  _ = Weights
-  _ = Values
+
+  for i := 0; i < n; i++ {
+		Values[i] = rand.Intn(220 - 1 + 1) + 1
+    Weights[i] = rand.Intn(60 - 1 + 1) + 1
+	}
+
+  fmt.Fprintf(t, "\n %s\t%s\t%s\t", "Item", "Val", "Wt")
+	fmt.Fprintf(t, "\n %s\t%s\t%s\t", "----", "----", "----")
+  for i := 0; i < n; i++ {
+    fmt.Fprintf(t, "\n %d\t$%d\t%d lbs.\t", i+1, Values[i], Weights[i])
+  }
+  fmt.Fprintf(t, "\n\n")
+
+  var Stash[20]string //everything you stole--err, liberated...
   _ = Stash
 
   // nobody asked for this...
@@ -48,44 +65,9 @@ func main() {
     "Rolex", "polished charoite", "forbidden flour", "lottery ticket", "Declaration of Independence"}
   _ = items
 
-  // for (int i = 0; i < 5; i++) {
-  //   n = rand() % 20 + 1;
-  //   Values = GenerateValues(n);
-  //   Weights = GenerateWeights(n);
-  //   int MaxValue_Dynamic = Dynamic_Knapsack(W, Weights, Values, n);
-  //   printf("N = %d W = %d, Max Recursive = $%d, Max Dynamic = $%d\n", n, W, MaxValue_Recursive, MaxValue_Dynamic);
-  // }
-  // return(0);
-}
+  var maxvalue = Knapsack(W, Weights, Values, n);
+  fmt.Printf("N = %d W = %d, Max = $%d\n", n, W, maxvalue);
 
-// Fill an array with pseudo-random weights,
-// with values from 1 to 80. Return pointer.
-func GenerateWeights(n int) int {
-  var x = 5
-  _ = x
-  // int* tmparr = (int*)malloc(n * sizeof(int));
-  //
-  // for (int i = 0; i < n; i++) {
-  //   int tmpwt = rand() % 80 + 1;
-  //   tmparr[i] = tmpwt;
-  // }
-  // return tmparr;
-  return 1
-}
-
-// Fill an array with pseudo-random dollar values
-// from 1 to 120. Return pointer.
-func GenerateValues(n int) int {
-  var x = 5
-  _ = x
-  // int* tmparr = (int*)malloc(n * sizeof(int));
-  //
-  // for (int i = 0; i < n; i++) {
-  //   int tmpvl = rand() % 120 + 1;
-  //   tmparr[i] = tmpvl;
-  // }
-  // return tmparr;
-  return 1
 }
 
 func Free(Weights [20]int, Values [20]int) {
@@ -110,27 +92,30 @@ func Max(a int, b int) int {
 // Returns the maximum value that
 // can be put in a knapsack of capacity W
 func Knapsack(W int, Weights [20]int, Values [20]int, n int) int {
-  var i, w int
-  _ = i
-  _ = w
-    // int K[n + 1][W + 1];
-    //
-    // // Build table K[][] in bottom up manner
-    // for (i = 0; i <= n; i++)
-    // {
-    //     for (w = 0; w <= W; w++)
-    //     {
-    //         if (i == 0 || w == 0)
-    //             K[i][w] = 0;
-    //         else if (Weights[i - 1] <= w)
-    //             K[i][w] = Max(Values[i - 1]
-    //                       + K[i - 1][w - Weights[i - 1]],
-    //                       K[i - 1][w]);
-    //         else
-    //             K[i][w] = K[i - 1][w];
-    //     }
-    // }
-    //
-    // return K[n][W];
-    return 1
+
+  // set up a 2D array for my solution grid!
+  // ...or not
+  // golang got very cranky about not knowing the array size
+  // until runtime, so I'm trying with a slice instead. whatever
+  // that is.
+  // apparently slices are always 1D but can be composed into 2d
+  // arrays, with some work...
+  K := make([][]int, n + 1)
+  for i := range K {
+    K[i] = make([]int, W + 1)
+  }
+
+  for i := 0; i <= n; i++ {
+    for w:= 0; w <= W; w++ {
+      if (i == 0 || w == 0) {
+          K[i][w] = 0
+      } else if Weights[i - 1] <= w {
+          K[i][w] = Max(Values[i-1] + K[i - 1][w - Weights[i - 1]], K[i - 1][w]);
+      } else {
+          K[i][w] = K[i-1][w]
+      }
+    }
+  }
+
+  return K[n][W];
 }
