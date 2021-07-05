@@ -11,21 +11,26 @@ import (
 func main() {
   rand.Seed(time.Now().UnixNano()) // seed random number generator
 
-  fmt.Printf("0/1 Knapsack\n")
+  fmt.Printf("Filthy Thieving Knapsack\n")
 
   // want three different sized knapsacks, but largest by default for now
   // fanny pack:                 10 lbs
   // artisanal leather knapsack: 25 lbs
   // santa's toy bag:            75 lbs
-  W := [3]int{10, 25, 75}
+  W:= [3]int{10, 25, 75}
+  _ = W
 
   var n = 0      // number of items available
+  _ = n
   // used to initialize pointers to arrays here, but that needs to be ported
   // bc the array size is *part* of the type in Go...
 
-  var Weights [20]int  // weights of available items
-  var Values [20]int   // values of available items
-  var Stash [20]string //everything you stole
+  var Weights[20]int  // weights of available items
+  var Values[20]int   // values of available items
+  var Stash[20]string //everything you stole
+  _ = Weights
+  _ = Values
+  _ = Stash
 
   // nobody asked for this...
   var items = [60]string{
@@ -41,6 +46,7 @@ func main() {
     "mix tape", "Chaka Khan record", "walkman without batteries", "batteries", "EMF jammer",
     "Rosemary's Baby poster", "ratchet", "can of soup", "aquarium filter", "mermaid soap",
     "Rolex", "polished charoite", "forbidden flour", "lottery ticket", "Declaration of Independence"}
+  _ = items
 
   // for (int i = 0; i < 5; i++) {
   //   n = rand() % 20 + 1;
@@ -56,6 +62,7 @@ func main() {
 // with values from 1 to 80. Return pointer.
 func GenerateWeights(n int) int {
   var x = 5
+  _ = x
   // int* tmparr = (int*)malloc(n * sizeof(int));
   //
   // for (int i = 0; i < n; i++) {
@@ -70,6 +77,7 @@ func GenerateWeights(n int) int {
 // from 1 to 120. Return pointer.
 func GenerateValues(n int) int {
   var x = 5
+  _ = x
   // int* tmparr = (int*)malloc(n * sizeof(int));
   //
   // for (int i = 0; i < n; i++) {
@@ -103,6 +111,8 @@ func Max(a int, b int) int {
 // can be put in a knapsack of capacity W
 func Knapsack(W int, Weights [20]int, Values [20]int, n int) int {
   var i, w int
+  _ = i
+  _ = w
     // int K[n + 1][W + 1];
     //
     // // Build table K[][] in bottom up manner
