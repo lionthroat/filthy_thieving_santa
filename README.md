@@ -12,14 +12,13 @@ rarely, if ever, taught in a university setting: Go.
 </blockquote>
 
 ##### How did Go, well... go?
-<blockquote>It's still going, so to speak. I've found getting started with Go to be much rougher than Rust. Where did my ternary
-operator go? Why can't I declare an array pointer without knowing the length? What do nil slices have to do with emptying an array?
-And for goodness sakes, why won't it just compile with my unused variables while I work on porting my full solution into Go? (Please
-don't answer the last question; I know the answer, I just disagree with the decision on every level.)
+<blockquote>It's still going, so to speak. Getting started with Go turned out to be rough, as many fundamental
+design decisions made about the language are at odds with everything I find logically and aesthetically pleasing. Where did my ternary operator go? Why does Go have to be allergic to semicolons? Why can't I declare an array pointer without knowing the length? What do nil slices have to do with emptying an array? What are slices?!?!
+And for goodness sakes, why won't it just compile with my unused variables while I work on porting my full solution into Go? (Please don't answer the last question; I know the answer, I just disagree on every level.)
 </blockquote>
 
 ##### How could this be improved?
-<blockquote>Plz compile I need serotonin :(</blockquote>
+<blockquote>For now, I'm just happy it compiles</blockquote>
 
 - Heather
 
